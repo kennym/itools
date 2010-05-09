@@ -229,7 +229,7 @@ class Parser(BaseParser, object):
         return self.events
 
 
-    def handle_decl(self, value):
+    #def handle_decl(self, value):
         # The document type declaration of HTML documents is like defined
         # by SGML, what is a little more flexible than XML. Right now we
         # support:
@@ -244,38 +244,42 @@ class Parser(BaseParser, object):
         # be supported (the SGML spec is not available online).
 
         # DOCTYPE
-        if not value.startswith('DOCTYPE'):
-            raise XMLError
-        value = value[7:]
+        #if not value.startswith('DOCTYPE'):
+        #    raise XMLError
+        #value = value[7:]
         # Name
-        name, value = value.split(None, 1)
+        #try:
+        #    name, value = value.split(None, 1)
+        #except:
+        #    pass
+
         # Ids
-        def read_id(value):
-            sep = value[0]
-            if sep != '"' and sep != "'":
-                raise XMLError
-            return value[1:].split(sep, 1)
+        #def read_id(value):
+        #    sep = value[0]
+        #    if sep != '"' and sep != "'":
+        #        raise XMLError
+        #    return value[1:].split(sep, 1)
 
-        public_id = None
-        system_id = None
-        if value.startswith('SYSTEM'):
-            value = value[6:].lstrip()
-            system_id, value = read_id(value)
-        elif value.startswith('PUBLIC'):
-            value = value[6:].lstrip()
-            public_id, value = read_id(value)
-            value = value.lstrip()
-            if value:
-                system_id, value = read_id(value)
-        else:
-            raise XMLError
-        # XXX Internal subset TODO!!
-
-        value = name, DocType_ersatz(PubidLiteral=public_id,
-                                     SystemLiteral=system_id)
-        self.events.append((DOCUMENT_TYPE, value, self.getpos()[0]))
-
-
+        #public_id = None
+        #system_id = None
+        ##if value.startswith('SYSTEM'):
+        #    value = value[6:].lstrip()
+        #    system_id, value = read_id(value)
+        #elif value.startswith('PUBLIC'):
+        #    value = value[6:].lstrip()
+        #    public_id, value = read_id(value)
+        #    value = value.lstrip()
+        #    if value:
+        #        system_id, value = read_id(value)
+        ##else:
+        #    raise XMLError
+        ## XXX Internal subset TODO!!
+#
+#        value = name, DocType_ersatz(PubidLiteral=public_id,
+#                                     SystemLiteral=system_id)
+#        self.events.append((DOCUMENT_TYPE, value, self.getpos()[0]))
+#
+#
     def handle_starttag(self, name, attrs):
         events = self.events
         line = self.getpos()[0]

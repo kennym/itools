@@ -1,3 +1,7 @@
+#############################################################################
+This is a personal fork of python-itools. You can find the original code at:
+					   http://www.hforge.org/itools.
+#############################################################################
 
 itools is a Python library, it groups a number of packages into a single
 meta-package for easier development and deployment.
