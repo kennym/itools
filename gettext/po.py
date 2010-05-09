@@ -139,7 +139,7 @@ def encode_source(source):
             # A lonely tag ?
             if source[i-1][0] != START_FORMAT:
                 result.append(u'</g>')
-    return u''.join(result)
+    return ''.join(result)
 
 
 def decode_target(target):
@@ -272,9 +272,14 @@ class POUnit(object):
             for string in self.context[1:]:
                 s.append('"%s"\n' % escape(string.encode(encoding)))
         # The msgid
-        s.append('msgid "%s"\n' % escape(self.source[0].encode(encoding)))
-        for string in self.source[1:]:
-            s.append('"%s"\n' % escape(string.encode(encoding)))
+        try:
+            s.append('msgid "%s"\n' % escape(self.source[0].encode(encoding)))
+            for string in self.source[1:]:
+                s.append('"%s"\n' % escape(string.encode(encoding)))
+        except UnicodeDecodeError:
+            s.append(u'msgid "%s"\n'.encode(encoding) % escape(self.source[0]))
+            for string in self.source[1:]:
+                s.append(u'"%s"\n'.encode(encoding) % escape(string))
         # The msgstr
         s.append('msgstr "%s"\n' % escape(self.target[0].encode(encoding)))
         for string in self.target[1:]:
